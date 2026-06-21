@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ServicoApp.API/ServicoApp.API.csproj" />
+  <Project Path="ServicoApp.Application/ServicoApp.Application.csproj" />
+  <Project Path="ServicoApp.Domain/ServicoApp.Domain.csproj" />
+  <Project Path="ServicoApp.Infrastructure/ServicoApp.Infrastructure.csproj" />
+</Solution>

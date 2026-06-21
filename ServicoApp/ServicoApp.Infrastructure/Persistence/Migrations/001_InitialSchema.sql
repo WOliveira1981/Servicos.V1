@@ -1,0 +1,16 @@
+﻿CREATE TABLE IF NOT EXISTS Servicos (
+    Id TEXT PRIMARY KEY,
+    Nome TEXT NOT NULL,
+    Descricao TEXT NOT NULL,
+    Valor DECIMAL(18,2) NOT NULL,
+    Ativo INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Orcamentos (
+    Id TEXT PRIMARY KEY,
+    ServicoId TEXT NOT NULL,
+    ValorTotal DECIMAL(18,2) NOT NULL,
+    DataCriacao TEXT NOT NULL,
+    Ativo INTEGER NOT NULL,
+    FOREIGN KEY (ServicoId) REFERENCES Servicos(Id)
+);
