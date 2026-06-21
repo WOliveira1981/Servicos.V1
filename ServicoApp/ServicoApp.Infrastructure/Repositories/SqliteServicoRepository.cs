@@ -2,19 +2,23 @@
 using Microsoft.Data.Sqlite;
 using ServicoApp.Domain.Entities;
 using ServicoApp.Domain.Repositories;
+using ServicoApp.Infrastructure.Persistence;
 
 namespace ServicoApp.Infrastructure.Repositories;
 
 /// <summary>
-/// Padrão Repository com implementação em SQLite usando Dapper.
+/// Padrão Repository: encapsula o acesso aos dados de Serviço e mantém a aplicação
+/// desacoplada do detalhe físico do SQLite/Dapper.
 /// </summary>
 public sealed class SqliteServicoRepository : IServicoRepository
 {
     private readonly SqliteConnection _connection;
+    private readonly SqliteUnitOfWork _unitOfWork;
 
-    public SqliteServicoRepository(SqliteConnection connection)
+    public SqliteServicoRepository(SqliteConnection connection, SqliteUnitOfWork unitOfWork)
     {
         _connection = connection;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<IReadOnlyCollection<Servico>> GetAllAsync()
@@ -22,7 +26,7 @@ public sealed class SqliteServicoRepository : IServicoRepository
         await _connection.OpenAsync();
         try
         {
-            var query = "SELECT Id, Nome, Descricao, Valor, Ativo FROM Servicos";
+            const string query = "SELECT Id, Nome, Descricao, Valor, Ativo FROM Servicos";
             return (await _connection.QueryAsync<Servico>(query)).ToList();
         }
         finally
@@ -36,7 +40,7 @@ public sealed class SqliteServicoRepository : IServicoRepository
         await _connection.OpenAsync();
         try
         {
-            var query = "SELECT Id, Nome, Descricao, Valor, Ativo FROM Servicos WHERE Id = @Id";
+            const string query = "SELECT Id, Nome, Descricao, Valor, Ativo FROM Servicos WHERE Id = @Id";
             return await _connection.QuerySingleOrDefaultAsync<Servico>(query, new { Id = id });
         }
         finally
@@ -45,54 +49,42 @@ public sealed class SqliteServicoRepository : IServicoRepository
         }
     }
 
-    public async Task AddAsync(Servico servico)
+    public Task AddAsync(Servico servico)
     {
-        await _connection.OpenAsync();
-        try
-        {
-            const string query = @"
-                INSERT INTO Servicos (Id, Nome, Descricao, Valor, Ativo)
-                VALUES (@Id, @Nome, @Descricao, @Valor, @Ativo)";
-            await _connection.ExecuteAsync(query, servico);
-        }
-        finally
-        {
-            await _connection.CloseAsync();
-        }
+        const string query = @"
+            INSERT INTO Servicos (Id, Nome, Descricao, Valor, Ativo)
+            VALUES (@Id, @Nome, @Descricao, @Valor, @Ativo)";
+
+        _unitOfWork.EnqueueAsync(async (connection, transaction) =>
+            await connection.ExecuteAsync(query, servico, transaction));
+
+        return Task.CompletedTask;
     }
 
-    public async Task UpdateAsync(Servico servico)
+    public Task UpdateAsync(Servico servico)
     {
-        await _connection.OpenAsync();
-        try
-        {
-            const string query = @"
-                UPDATE Servicos
-                SET Nome = @Nome,
-                    Descricao = @Descricao,
-                    Valor = @Valor,
-                    Ativo = @Ativo
-                WHERE Id = @Id";
-            await _connection.ExecuteAsync(query, servico);
-        }
-        finally
-        {
-            await _connection.CloseAsync();
-        }
+        const string query = @"
+            UPDATE Servicos
+            SET Nome = @Nome,
+                Descricao = @Descricao,
+                Valor = @Valor,
+                Ativo = @Ativo
+            WHERE Id = @Id";
+
+        _unitOfWork.EnqueueAsync(async (connection, transaction) =>
+            await connection.ExecuteAsync(query, servico, transaction));
+
+        return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public Task DeleteAsync(Guid id)
     {
-        await _connection.OpenAsync();
-        try
-        {
-            await _connection.ExecuteAsync(
+        _unitOfWork.EnqueueAsync(async (connection, transaction) =>
+            await connection.ExecuteAsync(
                 "DELETE FROM Servicos WHERE Id = @Id",
-                new { Id = id });
-        }
-        finally
-        {
-            await _connection.CloseAsync();
-        }
+                new { Id = id },
+                transaction));
+
+        return Task.CompletedTask;
     }
 }

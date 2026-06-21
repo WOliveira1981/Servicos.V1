@@ -17,7 +17,8 @@ public static class DependencyInjection
 
         services.AddSingleton<ServicoFactory>();
         services.AddScoped(_ => new SqliteConnection(connectionString));
-        services.AddScoped<IUnitOfWork, SqliteUnitOfWork>();
+        services.AddScoped<SqliteUnitOfWork>();
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<SqliteUnitOfWork>());
         services.AddScoped<IServicoRepository, SqliteServicoRepository>();
         services.AddScoped<IOrcamentoRepository, SqliteOrcamentoRepository>();
         services.AddScoped<SqliteDatabaseInitializer>();

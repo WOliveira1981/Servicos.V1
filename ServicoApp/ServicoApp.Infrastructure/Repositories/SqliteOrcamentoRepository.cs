@@ -2,19 +2,22 @@
 using Microsoft.Data.Sqlite;
 using ServicoApp.Domain.Entities;
 using ServicoApp.Domain.Repositories;
+using ServicoApp.Infrastructure.Persistence;
 
 namespace ServicoApp.Infrastructure.Repositories;
 
 /// <summary>
-/// Padrão Repository com implementação em SQLite usando Dapper para orçamentos.
+/// Padrão Repository: separa a lógica de consulta e escrita de Orçamento do restante da aplicação.
 /// </summary>
 public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
 {
     private readonly SqliteConnection _connection;
+    private readonly SqliteUnitOfWork _unitOfWork;
 
-    public SqliteOrcamentoRepository(SqliteConnection connection)
+    public SqliteOrcamentoRepository(SqliteConnection connection, SqliteUnitOfWork unitOfWork)
     {
         _connection = connection;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<IReadOnlyCollection<Orcamento>> GetAllAsync()
@@ -22,7 +25,7 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
         await _connection.OpenAsync();
         try
         {
-            var query = "SELECT Id, ServicoId, ValorTotal, DataCriacao, Ativo FROM Orcamentos";
+            const string query = "SELECT Id, ServicoId, ValorTotal, DataCriacao, Ativo FROM Orcamentos";
             return (await _connection.QueryAsync<Orcamento>(query)).ToList();
         }
         finally
@@ -36,7 +39,7 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
         await _connection.OpenAsync();
         try
         {
-            var query = "SELECT Id, ServicoId, ValorTotal, DataCriacao, Ativo FROM Orcamentos WHERE Id = @Id";
+            const string query = "SELECT Id, ServicoId, ValorTotal, DataCriacao, Ativo FROM Orcamentos WHERE Id = @Id";
             return await _connection.QuerySingleOrDefaultAsync<Orcamento>(query, new { Id = id });
         }
         finally
@@ -50,7 +53,7 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
         await _connection.OpenAsync();
         try
         {
-            var query = "SELECT Id, ServicoId, ValorTotal, DataCriacao, Ativo FROM Orcamentos WHERE ServicoId = @ServicoId";
+            const string query = "SELECT Id, ServicoId, ValorTotal, DataCriacao, Ativo FROM Orcamentos WHERE ServicoId = @ServicoId";
             return (await _connection.QueryAsync<Orcamento>(query, new { ServicoId = servicoId })).ToList();
         }
         finally
@@ -59,54 +62,42 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
         }
     }
 
-    public async Task AddAsync(Orcamento orcamento)
+    public Task AddAsync(Orcamento orcamento)
     {
-        await _connection.OpenAsync();
-        try
-        {
-            const string query = @"
-                INSERT INTO Orcamentos (Id, ServicoId, ValorTotal, DataCriacao, Ativo)
-                VALUES (@Id, @ServicoId, @ValorTotal, @DataCriacao, @Ativo)";
-            await _connection.ExecuteAsync(query, orcamento);
-        }
-        finally
-        {
-            await _connection.CloseAsync();
-        }
+        const string query = @"
+            INSERT INTO Orcamentos (Id, ServicoId, ValorTotal, DataCriacao, Ativo)
+            VALUES (@Id, @ServicoId, @ValorTotal, @DataCriacao, @Ativo)";
+
+        _unitOfWork.EnqueueAsync(async (connection, transaction) =>
+            await connection.ExecuteAsync(query, orcamento, transaction));
+
+        return Task.CompletedTask;
     }
 
-    public async Task UpdateAsync(Orcamento orcamento)
+    public Task UpdateAsync(Orcamento orcamento)
     {
-        await _connection.OpenAsync();
-        try
-        {
-            const string query = @"
-                UPDATE Orcamentos
-                SET ServicoId = @ServicoId,
-                    ValorTotal = @ValorTotal,
-                    DataCriacao = @DataCriacao,
-                    Ativo = @Ativo
-                WHERE Id = @Id";
-            await _connection.ExecuteAsync(query, orcamento);
-        }
-        finally
-        {
-            await _connection.CloseAsync();
-        }
+        const string query = @"
+            UPDATE Orcamentos
+            SET ServicoId = @ServicoId,
+                ValorTotal = @ValorTotal,
+                DataCriacao = @DataCriacao,
+                Ativo = @Ativo
+            WHERE Id = @Id";
+
+        _unitOfWork.EnqueueAsync(async (connection, transaction) =>
+            await connection.ExecuteAsync(query, orcamento, transaction));
+
+        return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public Task DeleteAsync(Guid id)
     {
-        await _connection.OpenAsync();
-        try
-        {
-            await _connection.ExecuteAsync(
+        _unitOfWork.EnqueueAsync(async (connection, transaction) =>
+            await connection.ExecuteAsync(
                 "DELETE FROM Orcamentos WHERE Id = @Id",
-                new { Id = id });
-        }
-        finally
-        {
-            await _connection.CloseAsync();
-        }
+                new { Id = id },
+                transaction));
+
+        return Task.CompletedTask;
     }
 }
