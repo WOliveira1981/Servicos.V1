@@ -116,5 +116,7 @@ app.MapPost("/gateway/auth/login", async (LoginRequest request, IApiGatewayServi
 
 app.Run();
 
+public partial class Program;
+
 public record CreateServicoRequest(string Nome, string Descricao, decimal Valor);
 public record LoginRequest(string Provider, string? Token, string? Email, string? Name = null);

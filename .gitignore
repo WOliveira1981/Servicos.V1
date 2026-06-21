@@ -6,3 +6,5 @@
 /ServicoApp/ServicoApp.Domain/obj
 /ServicoApp/ServicoApp.Infrastructure/bin
 /ServicoApp/ServicoApp.Infrastructure/obj
+/ServicoApp/ServicoApp.Tests/bin
+/ServicoApp/ServicoApp.Tests/obj

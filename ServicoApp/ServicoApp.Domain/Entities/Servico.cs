@@ -20,6 +20,12 @@ public sealed class Servico
         Ativo = ativo;
     }
 
+    // Este construtor auxilia o mapeamento do Dapper com tipos SQLite (texto, real e inteiro).
+    public Servico(string id, string nome, string descricao, double valor, long ativo)
+        : this(Guid.Parse(id), nome, descricao, (decimal)valor, ativo != 0)
+    {
+    }
+
     public void Ativar() => Ativo = true;
 
     public void Desativar() => Ativo = false;
