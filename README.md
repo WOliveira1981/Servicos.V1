@@ -15,3 +15,22 @@ comentários explicando o padrão Strategy em IAuthenticationStrategy.cs
 Verificação
 dotnet build concluiu com sucesso
 a chamada ao endpoint de login retornou um JWT válido via Invoke-RestMethod
+
+✅ API Gateway criado com Swagger/OpenAPI
+O projeto agora possui um gateway exposto em endpoints específicos:
+
+GET /gateway/servicos
+GET /gateway/servicos/{id}
+POST /gateway/servicos
+POST /gateway/auth/login
+Também deixei a documentação automática disponível via Swagger/OpenAPI, e o padrão Facade foi comentado na implementação do gateway para explicar que ele centraliza chamadas e esconde a complexidade das integrações internas.
+
+Arquivos principais ajustados
+IApiGatewayService.cs
+ApiGatewayService.cs
+DependencyInjection.cs
+Program.cs
+Verificações executadas
+dotnet build ✅
+consulta ao Swagger (/swagger/v1/swagger.json) mostrando os endpoints do gateway ✅
+O endpoint de documentação está disponível no runtime em http://localhost:5003/swagger.

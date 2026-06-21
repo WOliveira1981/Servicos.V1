@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using ServicoApp.Application;
 using ServicoApp.Application.Auth;
+using ServicoApp.Application.Gateway;
 using ServicoApp.Application.Services;
 using ServicoApp.Infrastructure;
 using ServicoApp.Infrastructure.Persistence;
@@ -64,37 +65,38 @@ using (var scope = app.Services.CreateScope())
     await initializer.InitializeAsync();
 }
 
-app.MapGet("/servicos", async (IServicoAppService service) =>
+// Padrão Facade: o gateway expõe um único ponto de entrada para múltiplos fluxos da aplicação.
+app.MapGet("/gateway/servicos", async (IApiGatewayService gateway) =>
 {
-    var servicos = await service.GetAllAsync();
+    var servicos = await gateway.GetAllAsync();
     return Results.Ok(servicos);
 })
-.WithName("GetServicos")
+.WithName("GetServicosViaGateway")
 .WithOpenApi();
 
-app.MapGet("/servicos/{id:guid}", async (Guid id, IServicoAppService service) =>
+app.MapGet("/gateway/servicos/{id:guid}", async (Guid id, IApiGatewayService gateway) =>
 {
-    var servico = await service.GetByIdAsync(id);
+    var servico = await gateway.GetByIdAsync(id);
     return servico is null
         ? Results.NotFound()
         : Results.Ok(servico);
 })
-.WithName("GetServicoById")
+.WithName("GetServicoByIdViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapPost("/servicos", async (CreateServicoRequest request, IServicoAppService service) =>
+app.MapPost("/gateway/servicos", async (CreateServicoRequest request, IApiGatewayService gateway) =>
 {
-    var servico = await service.CreateAsync(request.Nome, request.Descricao, request.Valor);
-    return Results.Created($"/servicos/{servico.Id}", servico);
+    var servico = await gateway.CreateAsync(request.Nome, request.Descricao, request.Valor);
+    return Results.Created($"/gateway/servicos/{servico.Id}", servico);
 })
-.WithName("CreateServico")
+.WithName("CreateServicoViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapPost("/auth/login", async (LoginRequest request, AuthenticationService authService) =>
+app.MapPost("/gateway/auth/login", async (LoginRequest request, IApiGatewayService gateway) =>
 {
-    var result = await authService.AuthenticateAsync(
+    var result = await gateway.LoginAsync(
         new AuthenticationRequest(request.Provider, request.Token, request.Email, request.Name));
 
     if (!result.IsAuthenticated || string.IsNullOrWhiteSpace(result.JwtToken))
@@ -109,7 +111,7 @@ app.MapPost("/auth/login", async (LoginRequest request, AuthenticationService au
         result.Email
     });
 })
-.WithName("Login")
+.WithName("LoginViaGateway")
 .WithOpenApi();
 
 app.Run();
