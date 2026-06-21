@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<SqliteUnitOfWork>());
         services.AddScoped<IServicoRepository, SqliteServicoRepository>();
         services.AddScoped<IOrcamentoRepository, SqliteOrcamentoRepository>();
+        services.AddScoped<ILogRepository, SqliteLogRepository>();
         services.AddScoped<SqliteDatabaseInitializer>();
         services.AddEventDriven();
 

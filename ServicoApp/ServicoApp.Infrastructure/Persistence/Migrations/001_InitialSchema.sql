@@ -14,3 +14,10 @@ CREATE TABLE IF NOT EXISTS Orcamentos (
     Ativo INTEGER NOT NULL,
     FOREIGN KEY (ServicoId) REFERENCES Servicos(Id)
 );
+
+CREATE TABLE IF NOT EXISTS Logs (
+    Id TEXT PRIMARY KEY,
+    EventType TEXT NOT NULL,
+    Payload TEXT NOT NULL,
+    OccurredAt TEXT NOT NULL
+);

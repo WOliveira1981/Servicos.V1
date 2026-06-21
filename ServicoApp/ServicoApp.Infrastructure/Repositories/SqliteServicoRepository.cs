@@ -41,7 +41,7 @@ public sealed class SqliteServicoRepository : IServicoRepository
         try
         {
             const string query = "SELECT Id, Nome, Descricao, Valor, Ativo FROM Servicos WHERE Id = @Id";
-            return await _connection.QuerySingleOrDefaultAsync<Servico>(query, new { Id = id });
+            return await _connection.QuerySingleOrDefaultAsync<Servico>(query, new { Id = id.ToString() });
         }
         finally
         {
@@ -56,7 +56,14 @@ public sealed class SqliteServicoRepository : IServicoRepository
             VALUES (@Id, @Nome, @Descricao, @Valor, @Ativo)";
 
         _unitOfWork.EnqueueAsync(async (connection, transaction) =>
-            await connection.ExecuteAsync(query, servico, transaction));
+            await connection.ExecuteAsync(query, new
+            {
+                Id = servico.Id.ToString(),
+                servico.Nome,
+                servico.Descricao,
+                servico.Valor,
+                Ativo = servico.Ativo ? 1 : 0
+            }, transaction));
 
         return Task.CompletedTask;
     }
@@ -72,7 +79,14 @@ public sealed class SqliteServicoRepository : IServicoRepository
             WHERE Id = @Id";
 
         _unitOfWork.EnqueueAsync(async (connection, transaction) =>
-            await connection.ExecuteAsync(query, servico, transaction));
+            await connection.ExecuteAsync(query, new
+            {
+                Id = servico.Id.ToString(),
+                servico.Nome,
+                servico.Descricao,
+                servico.Valor,
+                Ativo = servico.Ativo ? 1 : 0
+            }, transaction));
 
         return Task.CompletedTask;
     }
@@ -82,7 +96,7 @@ public sealed class SqliteServicoRepository : IServicoRepository
         _unitOfWork.EnqueueAsync(async (connection, transaction) =>
             await connection.ExecuteAsync(
                 "DELETE FROM Servicos WHERE Id = @Id",
-                new { Id = id },
+                new { Id = id.ToString() },
                 transaction));
 
         return Task.CompletedTask;

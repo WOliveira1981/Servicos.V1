@@ -40,7 +40,7 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
         try
         {
             const string query = "SELECT Id, ServicoId, ValorTotal, DataCriacao, Ativo FROM Orcamentos WHERE Id = @Id";
-            return await _connection.QuerySingleOrDefaultAsync<Orcamento>(query, new { Id = id });
+            return await _connection.QuerySingleOrDefaultAsync<Orcamento>(query, new { Id = id.ToString() });
         }
         finally
         {
@@ -54,7 +54,7 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
         try
         {
             const string query = "SELECT Id, ServicoId, ValorTotal, DataCriacao, Ativo FROM Orcamentos WHERE ServicoId = @ServicoId";
-            return (await _connection.QueryAsync<Orcamento>(query, new { ServicoId = servicoId })).ToList();
+            return (await _connection.QueryAsync<Orcamento>(query, new { ServicoId = servicoId.ToString() })).ToList();
         }
         finally
         {
@@ -69,7 +69,14 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
             VALUES (@Id, @ServicoId, @ValorTotal, @DataCriacao, @Ativo)";
 
         _unitOfWork.EnqueueAsync(async (connection, transaction) =>
-            await connection.ExecuteAsync(query, orcamento, transaction));
+            await connection.ExecuteAsync(query, new
+            {
+                Id = orcamento.Id.ToString(),
+                ServicoId = orcamento.ServicoId.ToString(),
+                orcamento.ValorTotal,
+                orcamento.DataCriacao,
+                Ativo = orcamento.Ativo ? 1 : 0
+            }, transaction));
 
         return Task.CompletedTask;
     }
@@ -85,7 +92,14 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
             WHERE Id = @Id";
 
         _unitOfWork.EnqueueAsync(async (connection, transaction) =>
-            await connection.ExecuteAsync(query, orcamento, transaction));
+            await connection.ExecuteAsync(query, new
+            {
+                Id = orcamento.Id.ToString(),
+                ServicoId = orcamento.ServicoId.ToString(),
+                orcamento.ValorTotal,
+                orcamento.DataCriacao,
+                Ativo = orcamento.Ativo ? 1 : 0
+            }, transaction));
 
         return Task.CompletedTask;
     }
@@ -95,7 +109,7 @@ public sealed class SqliteOrcamentoRepository : IOrcamentoRepository
         _unitOfWork.EnqueueAsync(async (connection, transaction) =>
             await connection.ExecuteAsync(
                 "DELETE FROM Orcamentos WHERE Id = @Id",
-                new { Id = id },
+                new { Id = id.ToString() },
                 transaction));
 
         return Task.CompletedTask;

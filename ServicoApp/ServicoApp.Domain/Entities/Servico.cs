@@ -26,6 +26,16 @@ public sealed class Servico
     {
     }
 
+    public Servico(string id, string nome, string descricao, string valor, long ativo)
+        : this(Guid.Parse(id), nome, descricao, decimal.Parse(valor), ativo != 0)
+    {
+    }
+
+    public Servico(string id, string nome, string descricao, long valor, long ativo)
+        : this(Guid.Parse(id), nome, descricao, valor, ativo != 0)
+    {
+    }
+
     public void Ativar() => Ativo = true;
 
     public void Desativar() => Ativo = false;

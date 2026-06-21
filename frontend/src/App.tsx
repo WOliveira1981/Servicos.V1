@@ -1,40 +1,28 @@
 import { useEffect, useMemo, useState } from 'react'
+import type {
+  AgendaItem,
+  LogEntry,
+  Orcamento,
+  Servico,
+} from './apiGatewayAdapter'
+import { apiGatewayAdapter } from './apiGatewayAdapter'
 import './App.css'
 
-type Servico = {
-  id: string
-  nome: string
-  descricao: string
-  valor: number
-  ativo: boolean
-}
-
-type Orcamento = {
-  id: string
-  servicoId: string
-  valorTotal: number
-  dataCriacao: string
-}
-
-type LoginResponse = {
-  jwtToken: string
-  provider: string
-  email?: string
-}
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api'
-
-const sampleMetrics = [42, 56, 38, 74, 91, 64]
+const formatCurrency = (value: number) =>
+  value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
 function App() {
   const [token, setToken] = useState<string>(localStorage.getItem('token') || '')
   const [email, setEmail] = useState('user@example.com')
-  const [name, setName] = useState('Usuário Demo')
+  const [name, setName] = useState('Usuario Demo')
   const [message, setMessage] = useState('')
   const [servicos, setServicos] = useState<Servico[]>([])
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([])
+  const [agenda, setAgenda] = useState<AgendaItem[]>([])
+  const [historico, setHistorico] = useState<LogEntry[]>([])
+  const [selectedServicoId, setSelectedServicoId] = useState('')
+  const [valorTotal, setValorTotal] = useState('150')
   const [isLoading, setIsLoading] = useState(false)
-  const [calculator, setCalculator] = useState('')
 
   const totalValue = useMemo(
     () => servicos.reduce((sum, servico) => sum + servico.valor, 0),
@@ -46,42 +34,28 @@ function App() {
     [orcamentos],
   )
 
+  const refreshGatewayData = async (jwt: string) => {
+    const [servicosPayload, orcamentosPayload, agendaPayload, historicoPayload] = await Promise.all([
+      apiGatewayAdapter.getServicos(jwt),
+      apiGatewayAdapter.getOrcamentos(jwt),
+      apiGatewayAdapter.getAgenda(jwt),
+      apiGatewayAdapter.getHistorico(jwt),
+    ])
+
+    setServicos(servicosPayload)
+    setOrcamentos(orcamentosPayload)
+    setAgenda(agendaPayload)
+    setHistorico(historicoPayload)
+    setSelectedServicoId((current) => current || servicosPayload[0]?.id || '')
+  }
+
   useEffect(() => {
     if (!token) return
 
-    const fetchData = async () => {
-      setIsLoading(true)
-      try {
-        const [servicosResponse, orcamentosResponse] = await Promise.all([
-          fetch(`${API_BASE}/gateway/servicos`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-          fetch(`${API_BASE}/gateway/servicos`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-        ])
-
-        if (servicosResponse.ok) {
-          const payload = await servicosResponse.json()
-          setServicos(payload)
-        }
-
-        if (orcamentosResponse.ok) {
-          const payload = await orcamentosResponse.json()
-          setOrcamentos(payload)
-        }
-      } catch (error) {
-        setMessage('Não foi possível carregar os dados da API.')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
+    setIsLoading(true)
+    refreshGatewayData(token)
+      .catch(() => setMessage('Nao foi possivel carregar os dados do API Gateway.'))
+      .finally(() => setIsLoading(false))
   }, [token])
 
   const handleLogin = async () => {
@@ -89,28 +63,10 @@ function App() {
     setMessage('')
 
     try {
-      const response = await fetch(`${API_BASE}/gateway/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          provider: 'Google',
-          token: 'demo-google-token',
-          email,
-          name,
-        }),
-      })
-
-      const payload = await response.json()
-
-      if (!response.ok || !payload.jwtToken) {
-        throw new Error(payload.message || 'Falha ao autenticar')
-      }
-
-      const authPayload = payload as LoginResponse
+      const authPayload = await apiGatewayAdapter.login(email, name)
       localStorage.setItem('token', authPayload.jwtToken)
       setToken(authPayload.jwtToken)
+      await refreshGatewayData(authPayload.jwtToken)
       setMessage(`Bem-vindo(a), ${authPayload.email || email}`)
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Erro inesperado')
@@ -119,38 +75,46 @@ function App() {
     }
   }
 
-  const handleCalculatorUse = (value: string) => {
-    if (value === '=') {
-      try {
-        setCalculator(String(eval(calculator)))
-      } catch {
-        setCalculator('Erro')
-      }
-      return
-    }
+  const handleSalvarOrcamento = async () => {
+    if (!token || !selectedServicoId) return
 
-    if (value === 'C') {
-      setCalculator('')
-      return
-    }
+    setIsLoading(true)
+    setMessage('')
 
-    setCalculator((prev) => `${prev}${value}`)
+    try {
+      await apiGatewayAdapter.salvarOrcamento(token, selectedServicoId, Number(valorTotal))
+      await refreshGatewayData(token)
+      setMessage('Orcamento gravado e evento registrado no historico.')
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Nao foi possivel gravar o orcamento.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const dateLabel = new Date().toLocaleDateString('pt-BR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  })
+  const handleStatusChange = async (servico: Servico) => {
+    if (!token) return
+
+    setIsLoading(true)
+    try {
+      await apiGatewayAdapter.alterarStatus(token, servico.id, !servico.ativo)
+      await refreshGatewayData(token)
+      setMessage('Status alterado e evento registrado no historico.')
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Nao foi possivel alterar o status.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <main className="app-shell">
       <header className="top-bar">
         <div>
-          <p className="eyebrow">Painel administrativo</p>
-          <h1>Serviços & Orçamentos</h1>
+          <p className="eyebrow">API Gateway</p>
+          <h1>Servicos & Orcamentos</h1>
         </div>
-        <section className="login-panel" aria-label="Login do usuário">
+        <section className="login-panel" aria-label="Login do usuario">
           <label>
             E-mail
             <input value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -169,104 +133,109 @@ function App() {
 
       <section className="stats-grid">
         <article className="stat-card">
-          <span>Serviços ativos</span>
-          <strong>{servicos.length}</strong>
+          <span>Servicos ativos</span>
+          <strong>{servicos.filter((servico) => servico.ativo).length}</strong>
         </article>
         <article className="stat-card">
           <span>Valor total</span>
-          <strong>{totalValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>
+          <strong>{formatCurrency(totalValue)}</strong>
         </article>
         <article className="stat-card">
-          <span>Orçamentos</span>
+          <span>Orcamentos</span>
           <strong>{orcamentos.length}</strong>
         </article>
         <article className="stat-card">
           <span>Volume mensal</span>
-          <strong>{totalBudgets.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>
+          <strong>{formatCurrency(totalBudgets)}</strong>
         </article>
       </section>
 
       <section className="content-grid">
         <div className="panel">
-          <h2>Visão geral</h2>
-          <div className="accordion-list">
-            <details open>
-              <summary>Serviços disponíveis</summary>
-              <ul>
-                {servicos.length === 0 ? (
-                  <li>Nenhum serviço carregado ainda.</li>
-                ) : (
-                  servicos.map((servico) => (
-                    <li key={servico.id}>
-                      <strong>{servico.nome}</strong>
-                      <span>{servico.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                    </li>
-                  ))
-                )}
-              </ul>
-            </details>
-            <details>
-              <summary>Últimos orçamentos</summary>
-              <ul>
-                {orcamentos.length === 0 ? (
-                  <li>Nenhum orçamento registrado.</li>
-                ) : (
-                  orcamentos.map((orcamento) => (
-                    <li key={orcamento.id}>
-                      <strong>{new Date(orcamento.dataCriacao).toLocaleDateString('pt-BR')}</strong>
-                      <span>{orcamento.valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                    </li>
-                  ))
-                )}
-              </ul>
-            </details>
+          <div className="panel-header">
+            <h2>Servicos</h2>
+            <button disabled={isLoading || !token} onClick={() => token && refreshGatewayData(token)}>
+              Atualizar
+            </button>
           </div>
+          <ul className="data-list">
+            {servicos.length === 0 ? (
+              <li>Nenhum servico carregado.</li>
+            ) : (
+              servicos.map((servico) => (
+                <li key={servico.id}>
+                  <div>
+                    <strong>{servico.nome}</strong>
+                    <span>{formatCurrency(servico.valor)}</span>
+                  </div>
+                  <button onClick={() => handleStatusChange(servico)} disabled={isLoading}>
+                    {servico.ativo ? 'Desativar' : 'Ativar'}
+                  </button>
+                </li>
+              ))
+            )}
+          </ul>
         </div>
 
-        <div className="panel chart-panel">
-          <h2>Histograma</h2>
-          <div className="histogram" role="img" aria-label="Histograma de desempenho">
-            {sampleMetrics.map((value, index) => (
-              <div key={index} className="bar-column">
-                <span style={{ height: `${value}%` }} />
-                <small>{['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'][index]}</small>
-              </div>
-            ))}
-          </div>
+        <div className="panel form-panel">
+          <h2>Gravar orcamento</h2>
+          <label>
+            Servico
+            <select value={selectedServicoId} onChange={(e) => setSelectedServicoId(e.target.value)}>
+              <option value="">Selecione</option>
+              {servicos.map((servico) => (
+                <option key={servico.id} value={servico.id}>
+                  {servico.nome}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Valor
+            <input value={valorTotal} onChange={(e) => setValorTotal(e.target.value)} inputMode="decimal" />
+          </label>
+          <button onClick={handleSalvarOrcamento} disabled={isLoading || !selectedServicoId || !token}>
+            Salvar
+          </button>
         </div>
       </section>
 
       <section className="content-grid lower-grid">
-        <div className="panel calendar-panel">
-          <div className="panel-header">
-            <h2>Agenda</h2>
-            <span>{dateLabel}</span>
-          </div>
-          <div className="calendar-grid">
-            {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map((day) => (
-              <span key={day}>{day}</span>
-            ))}
-            {Array.from({ length: 35 }, (_, index) => (
-              <button
-                key={index}
-                type="button"
-                className={index === 10 ? 'calendar-day active' : 'calendar-day'}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
+        <div className="panel">
+          <h2>Agenda</h2>
+          <ul className="data-list">
+            {agenda.length === 0 ? (
+              <li>Nenhum item de agenda.</li>
+            ) : (
+              agenda.map((item) => (
+                <li key={item.id}>
+                  <div>
+                    <strong>{item.titulo}</strong>
+                    <span>{new Date(item.data).toLocaleString('pt-BR')}</span>
+                  </div>
+                  <small>{item.status}</small>
+                </li>
+              ))
+            )}
+          </ul>
         </div>
 
-        <div className="panel calculator-panel">
-          <h2>Calculadora</h2>
-          <input aria-label="Resultado da calculadora" value={calculator} readOnly />
-          <div className="calculator-buttons">
-            {['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+'].map((value) => (
-              <button key={value} onClick={() => handleCalculatorUse(value)}>{value}</button>
-            ))}
-            <button className="clear-button" onClick={() => handleCalculatorUse('C')}>C</button>
-          </div>
+        <div className="panel">
+          <h2>Historico de eventos</h2>
+          <ul className="data-list history-list">
+            {historico.length === 0 ? (
+              <li>Nenhum evento registrado.</li>
+            ) : (
+              historico.map((entry) => (
+                <li key={entry.id}>
+                  <div>
+                    <strong>{entry.eventType}</strong>
+                    <span>{new Date(entry.occurredAt).toLocaleString('pt-BR')}</span>
+                  </div>
+                </li>
+              ))
+            )}
+          </ul>
         </div>
       </section>
     </main>

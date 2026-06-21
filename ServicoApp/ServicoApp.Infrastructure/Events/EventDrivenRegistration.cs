@@ -15,6 +15,7 @@ public static class EventDrivenRegistration
         services.AddSingleton<IEventPublisher, EventDispatcher>();
         services.AddSingleton<AuditEventObserver>();
         services.AddSingleton<IEventObserver<object>, AuditEventObserver>();
+        services.AddSingleton<IEventObserver<object>, PersistentLogEventObserver>();
 
         return services;
     }
