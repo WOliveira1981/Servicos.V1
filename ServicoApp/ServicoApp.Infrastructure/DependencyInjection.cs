@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ServicoApp.Domain.Factories;
 using ServicoApp.Domain.Repositories;
+using ServicoApp.Infrastructure.Events;
 using ServicoApp.Infrastructure.Persistence;
 using ServicoApp.Infrastructure.Repositories;
 
@@ -22,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<IServicoRepository, SqliteServicoRepository>();
         services.AddScoped<IOrcamentoRepository, SqliteOrcamentoRepository>();
         services.AddScoped<SqliteDatabaseInitializer>();
+        services.AddEventDriven();
 
         return services;
     }
