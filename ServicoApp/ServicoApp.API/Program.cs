@@ -16,6 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy
+            .WithOrigins(
+                "http://localhost:3000",
+                "http://localhost:5173",
+                "http://frontend:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "super-secret-key-for-dev-only-change-me";
 var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "ServicoApp";
@@ -56,6 +67,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -94,6 +106,60 @@ app.MapPost("/gateway/servicos", async (CreateServicoRequest request, IApiGatewa
 .WithOpenApi()
 .RequireAuthorization();
 
+app.MapPatch("/gateway/servicos/{id:guid}/status", async (Guid id, UpdateStatusRequest request, IApiGatewayService gateway) =>
+{
+    var servico = await gateway.AlterarStatusAsync(id, request.Ativo);
+    return servico is null
+        ? Results.NotFound()
+        : Results.Ok(servico);
+})
+.WithName("UpdateServicoStatusViaGateway")
+.WithOpenApi()
+.RequireAuthorization();
+
+app.MapGet("/gateway/orcamentos", async (IApiGatewayService gateway) =>
+{
+    var orcamentos = await gateway.GetOrcamentosAsync();
+    return Results.Ok(orcamentos);
+})
+.WithName("GetOrcamentosViaGateway")
+.WithOpenApi()
+.RequireAuthorization();
+
+app.MapPost("/gateway/orcamentos", async (CreateOrcamentoRequest request, IApiGatewayService gateway) =>
+{
+    try
+    {
+        var orcamento = await gateway.CriarOrcamentoAsync(request.ServicoId, request.ValorTotal);
+        return Results.Created($"/gateway/orcamentos/{orcamento.Id}", orcamento);
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.BadRequest(new { message = ex.Message });
+    }
+})
+.WithName("CreateOrcamentoViaGateway")
+.WithOpenApi()
+.RequireAuthorization();
+
+app.MapGet("/gateway/agenda", async (IApiGatewayService gateway) =>
+{
+    var agenda = await gateway.GetAgendaAsync();
+    return Results.Ok(agenda);
+})
+.WithName("GetAgendaViaGateway")
+.WithOpenApi()
+.RequireAuthorization();
+
+app.MapGet("/gateway/historico", async (IApiGatewayService gateway) =>
+{
+    var historico = await gateway.GetHistoricoAsync();
+    return Results.Ok(historico);
+})
+.WithName("GetHistoricoViaGateway")
+.WithOpenApi()
+.RequireAuthorization();
+
 app.MapPost("/gateway/auth/login", async (LoginRequest request, IApiGatewayService gateway) =>
 {
     var result = await gateway.LoginAsync(
@@ -116,5 +182,9 @@ app.MapPost("/gateway/auth/login", async (LoginRequest request, IApiGatewayServi
 
 app.Run();
 
+public partial class Program;
+
 public record CreateServicoRequest(string Nome, string Descricao, decimal Valor);
+public record CreateOrcamentoRequest(Guid ServicoId, decimal ValorTotal);
+public record UpdateStatusRequest(bool Ativo);
 public record LoginRequest(string Provider, string? Token, string? Email, string? Name = null);

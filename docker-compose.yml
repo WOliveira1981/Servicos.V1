@@ -1,0 +1,51 @@
+services:
+  api:
+    build:
+      context: ./ServicoApp
+      dockerfile: ServicoApp.API/Dockerfile
+    image: servicoapp-api:latest
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Data Source=/data/servicoapp.db
+      Jwt__Key: super-secret-key-for-dev-only-change-me
+      Jwt__Issuer: ServicoApp
+      Jwt__Audience: ServicoAppClients
+      ServiceBus__Url: http://servicebus:8080
+    ports:
+      - "5000:8080"
+    volumes:
+      - sqlite-data:/data
+    depends_on:
+      - sqlite
+      - servicebus
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        API_BASE_URL: /api
+    image: servicoapp-frontend:latest
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+  sqlite:
+    build:
+      context: ./docker/sqlite
+      dockerfile: Dockerfile
+    image: servicoapp-sqlite:latest
+    volumes:
+      - sqlite-data:/data
+
+  servicebus:
+    build:
+      context: ./docker/servicebus
+      dockerfile: Dockerfile
+    image: servicoapp-servicebus-mock:latest
+    ports:
+      - "5100:8080"
+
+volumes:
+  sqlite-data:
