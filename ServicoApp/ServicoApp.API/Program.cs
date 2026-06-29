@@ -78,113 +78,303 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Padrão Facade: o gateway expõe um único ponto de entrada para múltiplos fluxos da aplicação.
-app.MapGet("/gateway/servicos", async (IApiGatewayService gateway) =>
+app.MapGet("/gateway/servicos", async (IApiGatewayService gateway, ILogger<Program> logger) =>
 {
-    var servicos = await gateway.GetAllAsync();
-    return Results.Ok(servicos);
+    try
+    {
+        logger.LogInformation("Listando servicos pelo gateway.");
+        var servicos = await gateway.GetAllAsync();
+        return Results.Ok(servicos);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao listar servicos pelo gateway.");
+        return Results.Problem("Ocorreu um erro ao listar os servicos.");
+    }
 })
 .WithName("GetServicosViaGateway")
 .WithOpenApi();
 
-app.MapGet("/gateway/servicos/{id:guid}", async (Guid id, IApiGatewayService gateway) =>
+app.MapGet("/gateway/servicos/{id:guid}", async (Guid id, IApiGatewayService gateway, ILogger<Program> logger) =>
 {
-    var servico = await gateway.GetByIdAsync(id);
-    return servico is null
-        ? Results.NotFound()
-        : Results.Ok(servico);
+    try
+    {
+        logger.LogInformation("Buscando servico {ServicoId} pelo gateway.", id);
+        var servico = await gateway.GetByIdAsync(id);
+
+        if (servico is null)
+        {
+            logger.LogWarning("Servico {ServicoId} nao encontrado.", id);
+            return Results.NotFound(new { message = "Servico nao encontrado." });
+        }
+
+        return Results.Ok(servico);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao buscar servico {ServicoId} pelo gateway.", id);
+        return Results.Problem("Ocorreu um erro ao buscar o servico.");
+    }
 })
 .WithName("GetServicoByIdViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapPost("/gateway/servicos", async (CreateServicoRequest request, IApiGatewayService gateway) =>
+app.MapPost("/gateway/servicos", async (CreateServicoRequest? request, IApiGatewayService gateway, ILogger<Program> logger) =>
 {
-    var servico = await gateway.CreateAsync(request.Nome, request.Descricao, request.Valor);
-    return Results.Created($"/gateway/servicos/{servico.Id}", servico);
+    var validationMessage = ValidateCreateServicoRequest(request);
+    if (validationMessage is not null)
+    {
+        logger.LogWarning("Requisicao invalida para criar servico: {ValidationMessage}", validationMessage);
+        return Results.BadRequest(new { message = validationMessage });
+    }
+
+    try
+    {
+        logger.LogInformation("Criando servico {ServicoNome} pelo gateway.", request!.Nome);
+        var servico = await gateway.CreateAsync(request.Nome, request.Descricao, request.Valor);
+        logger.LogInformation("Servico {ServicoId} criado com sucesso.", servico.Id);
+        return Results.Created($"/gateway/servicos/{servico.Id}", servico);
+    }
+    catch (ArgumentException ex)
+    {
+        logger.LogWarning(ex, "Dados invalidos ao criar servico.");
+        return Results.BadRequest(new { message = ex.Message });
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao criar servico pelo gateway.");
+        return Results.Problem("Ocorreu um erro ao criar o servico.");
+    }
 })
 .WithName("CreateServicoViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapPatch("/gateway/servicos/{id:guid}/status", async (Guid id, UpdateStatusRequest request, IApiGatewayService gateway) =>
+app.MapPatch("/gateway/servicos/{id:guid}/status", async (Guid id, UpdateStatusRequest? request, IApiGatewayService gateway, ILogger<Program> logger) =>
 {
-    var servico = await gateway.AlterarStatusAsync(id, request.Ativo);
-    return servico is null
-        ? Results.NotFound()
-        : Results.Ok(servico);
+    if (request is null)
+    {
+        logger.LogWarning("Requisicao invalida para alterar status do servico {ServicoId}: corpo obrigatorio.", id);
+        return Results.BadRequest(new { message = "Informe os dados para alterar o status do servico." });
+    }
+
+    try
+    {
+        logger.LogInformation("Alterando status do servico {ServicoId} para {Ativo}.", id, request.Ativo);
+        var servico = await gateway.AlterarStatusAsync(id, request.Ativo);
+
+        if (servico is null)
+        {
+            logger.LogWarning("Servico {ServicoId} nao encontrado para alteracao de status.", id);
+            return Results.NotFound(new { message = "Servico nao encontrado." });
+        }
+
+        return Results.Ok(servico);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao alterar status do servico {ServicoId}.", id);
+        return Results.Problem("Ocorreu um erro ao alterar o status do servico.");
+    }
 })
 .WithName("UpdateServicoStatusViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapGet("/gateway/orcamentos", async (IApiGatewayService gateway) =>
+app.MapGet("/gateway/orcamentos", async (IApiGatewayService gateway, ILogger<Program> logger) =>
 {
-    var orcamentos = await gateway.GetOrcamentosAsync();
-    return Results.Ok(orcamentos);
+    try
+    {
+        logger.LogInformation("Listando orcamentos pelo gateway.");
+        var orcamentos = await gateway.GetOrcamentosAsync();
+        return Results.Ok(orcamentos);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao listar orcamentos pelo gateway.");
+        return Results.Problem("Ocorreu um erro ao listar os orcamentos.");
+    }
 })
 .WithName("GetOrcamentosViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapPost("/gateway/orcamentos", async (CreateOrcamentoRequest request, IApiGatewayService gateway) =>
+app.MapPost("/gateway/orcamentos", async (CreateOrcamentoRequest? request, IApiGatewayService gateway, ILogger<Program> logger) =>
 {
+    var validationMessage = ValidateCreateOrcamentoRequest(request);
+    if (validationMessage is not null)
+    {
+        logger.LogWarning("Requisicao invalida para criar orcamento: {ValidationMessage}", validationMessage);
+        return Results.BadRequest(new { message = validationMessage });
+    }
+
     try
     {
+        logger.LogInformation("Criando orcamento para servico {ServicoId}.", request!.ServicoId);
         var orcamento = await gateway.CriarOrcamentoAsync(request.ServicoId, request.ValorTotal);
+        logger.LogInformation("Orcamento {OrcamentoId} criado para servico {ServicoId}.", orcamento.Id, orcamento.ServicoId);
         return Results.Created($"/gateway/orcamentos/{orcamento.Id}", orcamento);
     }
     catch (InvalidOperationException ex)
     {
+        logger.LogWarning(ex, "Regra de negocio impediu a criacao do orcamento.");
         return Results.BadRequest(new { message = ex.Message });
+    }
+    catch (ArgumentException ex)
+    {
+        logger.LogWarning(ex, "Dados invalidos ao criar orcamento.");
+        return Results.BadRequest(new { message = ex.Message });
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao criar orcamento pelo gateway.");
+        return Results.Problem("Ocorreu um erro ao criar o orcamento.");
     }
 })
 .WithName("CreateOrcamentoViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapGet("/gateway/agenda", async (IApiGatewayService gateway) =>
+app.MapGet("/gateway/agenda", async (IApiGatewayService gateway, ILogger<Program> logger) =>
 {
-    var agenda = await gateway.GetAgendaAsync();
-    return Results.Ok(agenda);
+    try
+    {
+        logger.LogInformation("Listando agenda pelo gateway.");
+        var agenda = await gateway.GetAgendaAsync();
+        return Results.Ok(agenda);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao listar agenda pelo gateway.");
+        return Results.Problem("Ocorreu um erro ao listar a agenda.");
+    }
 })
 .WithName("GetAgendaViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapGet("/gateway/historico", async (IApiGatewayService gateway) =>
+app.MapGet("/gateway/historico", async (IApiGatewayService gateway, ILogger<Program> logger) =>
 {
-    var historico = await gateway.GetHistoricoAsync();
-    return Results.Ok(historico);
+    try
+    {
+        logger.LogInformation("Listando historico pelo gateway.");
+        var historico = await gateway.GetHistoricoAsync();
+        return Results.Ok(historico);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao listar historico pelo gateway.");
+        return Results.Problem("Ocorreu um erro ao listar o historico.");
+    }
 })
 .WithName("GetHistoricoViaGateway")
 .WithOpenApi()
 .RequireAuthorization();
 
-app.MapPost("/gateway/auth/login", async (LoginRequest request, IApiGatewayService gateway) =>
+app.MapPost("/gateway/auth/login", async (LoginRequest? request, IApiGatewayService gateway, ILogger<Program> logger) =>
 {
-    var result = await gateway.LoginAsync(
-        new AuthenticationRequest(request.Provider, request.Token, request.Email, request.Name));
-
-    if (!result.IsAuthenticated || string.IsNullOrWhiteSpace(result.JwtToken))
+    var validationMessage = ValidateLoginRequest(request);
+    if (validationMessage is not null)
     {
-        return Results.BadRequest(new { result.Message });
+        logger.LogWarning("Requisicao invalida para login: {ValidationMessage}", validationMessage);
+        return Results.BadRequest(new { message = validationMessage });
     }
 
-    return Results.Ok(new
+    try
     {
-        result.JwtToken,
-        result.Provider,
-        result.Email
-    });
+        logger.LogInformation("Tentando login via provider {Provider}.", request!.Provider);
+        var result = await gateway.LoginAsync(
+            new AuthenticationRequest(request.Provider, request.Token, request.Email, request.Name));
+
+        if (!result.IsAuthenticated || string.IsNullOrWhiteSpace(result.JwtToken))
+        {
+            logger.LogWarning("Falha de login via provider {Provider}: {Message}", request.Provider, result.Message);
+            return Results.BadRequest(new { result.Message });
+        }
+
+        logger.LogInformation("Login realizado com sucesso para {Email} via provider {Provider}.", result.Email, result.Provider);
+        return Results.Ok(new
+        {
+            result.JwtToken,
+            result.Provider,
+            result.Email
+        });
+    }
+    catch (ArgumentException ex)
+    {
+        logger.LogWarning(ex, "Dados invalidos ao realizar login.");
+        return Results.BadRequest(new { message = ex.Message });
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Erro ao realizar login via gateway.");
+        return Results.Problem("Ocorreu um erro ao realizar login.");
+    }
 })
 .WithName("LoginViaGateway")
 .WithOpenApi();
 
 app.Run();
 
-public partial class Program;
+static string? ValidateCreateServicoRequest(CreateServicoRequest? request)
+{
+    if (request is null)
+    {
+        return "Informe os dados do servico.";
+    }
+
+    if (string.IsNullOrWhiteSpace(request.Nome))
+    {
+        return "O nome do servico e obrigatorio.";
+    }
+
+    if (request.Valor < 0)
+    {
+        return "O valor nao pode ser negativo.";
+    }
+
+    return null;
+}
+
+static string? ValidateCreateOrcamentoRequest(CreateOrcamentoRequest? request)
+{
+    if (request is null)
+    {
+        return "Informe os dados do orcamento.";
+    }
+
+    if (request.ServicoId == Guid.Empty)
+    {
+        return "Informe um servico valido para o orcamento.";
+    }
+
+    if (request.ValorTotal < 0)
+    {
+        return "O valor total nao pode ser negativo.";
+    }
+
+    return null;
+}
+
+static string? ValidateLoginRequest(LoginRequest? request)
+{
+    if (request is null)
+    {
+        return "Informe os dados de login.";
+    }
+
+    if (string.IsNullOrWhiteSpace(request.Provider))
+    {
+        return "O provider e obrigatorio.";
+    }
+
+    return null;
+}
 
 public record CreateServicoRequest(string Nome, string Descricao, decimal Valor);
 public record CreateOrcamentoRequest(Guid ServicoId, decimal ValorTotal);
 public record UpdateStatusRequest(bool Ativo);
 public record LoginRequest(string Provider, string? Token, string? Email, string? Name = null);
+
+public partial class Program;
