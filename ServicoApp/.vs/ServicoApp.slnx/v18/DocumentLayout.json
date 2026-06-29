@@ -1,12 +1,139 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B746813A-DC5D-97F5-1F40-A6E2BEB06A31}|ServicoApp.API\\ServicoApp.API.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B746813A-DC5D-97F5-1F40-A6E2BEB06A31}|ServicoApp.API\\ServicoApp.API.csproj|solutionrelative:servicoapp.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.infrastructure\\repositories\\sqliteservicorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|solutionrelative:servicoapp.infrastructure\\repositories\\sqliteservicorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\entities\\logentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\entities\\logentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\factories\\servicofactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\factories\\servicofactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.infrastructure\\events\\eventdrivenregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|solutionrelative:servicoapp.infrastructure\\events\\eventdrivenregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.infrastructure\\events\\persistentlogeventobserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|solutionrelative:servicoapp.infrastructure\\events\\persistentlogeventobserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF3EA55-13BF-943A-BB7C-048A304F4EA7}|ServicoApp.Application\\ServicoApp.Application.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.application\\auth\\authenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF3EA55-13BF-943A-BB7C-048A304F4EA7}|ServicoApp.Application\\ServicoApp.Application.csproj|solutionrelative:servicoapp.application\\auth\\authenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SqliteServicoRepository.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Repositories\\SqliteServicoRepository.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Infrastructure\\Repositories\\SqliteServicoRepository.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Repositories\\SqliteServicoRepository.cs",
+              "RelativeToolTip": "ServicoApp.Infrastructure\\Repositories\\SqliteServicoRepository.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAIwCMAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:57:42.167Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.API\\Program.cs",
+              "RelativeDocumentMoniker": "ServicoApp.API\\Program.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.API\\Program.cs",
+              "RelativeToolTip": "ServicoApp.API\\Program.cs",
+              "ViewState": "AgIAAEcBAAAAAAAAAAAAAFcBAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:02:58.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuthenticationService.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Application\\Auth\\AuthenticationService.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Application\\Auth\\AuthenticationService.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Application\\Auth\\AuthenticationService.cs",
+              "RelativeToolTip": "ServicoApp.Application\\Auth\\AuthenticationService.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAzwB0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:55:55.733Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PersistentLogEventObserver.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\PersistentLogEventObserver.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Infrastructure\\Events\\PersistentLogEventObserver.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\PersistentLogEventObserver.cs",
+              "RelativeToolTip": "ServicoApp.Infrastructure\\Events\\PersistentLogEventObserver.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:55:04.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EventDrivenRegistration.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\EventDrivenRegistration.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Infrastructure\\Events\\EventDrivenRegistration.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\EventDrivenRegistration.cs",
+              "RelativeToolTip": "ServicoApp.Infrastructure\\Events\\EventDrivenRegistration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:48.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ServicoFactory.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Factories\\ServicoFactory.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Factories\\ServicoFactory.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Factories\\ServicoFactory.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Factories\\ServicoFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:22.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LogEntry.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Entities\\LogEntry.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Entities\\LogEntry.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Entities\\LogEntry.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Entities\\LogEntry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:53:55.733Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -27,7 +27,8 @@ public sealed class AuthenticationService
 
         if (strategy is null)
         {
-            _logger.LogWarning("Nenhuma estratégia encontrada para provider {Provider}", request.Provider);
+            var operationId = Guid.NewGuid();
+            _logger.LogWarning("Nenhuma estratégia encontrada para provider {Provider}. OperationID={operationId}", request.Provider, operationId);
             return new AuthResult(false, Message: "Provider não configurado.");
         }
 

@@ -1,0 +1,309 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|solutionrelative:servicoapp.infrastructure\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|solutionrelative:servicoapp.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.infrastructure\\events\\persistentlogeventobserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|solutionrelative:servicoapp.infrastructure\\events\\persistentlogeventobserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.infrastructure\\events\\mockservicebus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|solutionrelative:servicoapp.infrastructure\\events\\mockservicebus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.infrastructure\\events\\eventdrivenregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{693A1976-6879-D4B2-9F8E-F0D1B0CDB372}|ServicoApp.Infrastructure\\ServicoApp.Infrastructure.csproj|solutionrelative:servicoapp.infrastructure\\events\\eventdrivenregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\repositories\\iservicorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\repositories\\iservicorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\repositories\\iorcamentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\repositories\\iorcamentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\repositories\\ilogrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\repositories\\ilogrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\factories\\servicofactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\factories\\servicofactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\entities\\servico.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\entities\\servico.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\entities\\orcamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\entities\\orcamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.domain\\entities\\logentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDA34AF4-AE27-0F81-2554-B00ED9EEEF65}|ServicoApp.Domain\\ServicoApp.Domain.csproj|solutionrelative:servicoapp.domain\\entities\\logentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF3EA55-13BF-943A-BB7C-048A304F4EA7}|ServicoApp.Application\\ServicoApp.Application.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.application\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF3EA55-13BF-943A-BB7C-048A304F4EA7}|ServicoApp.Application\\ServicoApp.Application.csproj|solutionrelative:servicoapp.application\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF3EA55-13BF-943A-BB7C-048A304F4EA7}|ServicoApp.Application\\ServicoApp.Application.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF3EA55-13BF-943A-BB7C-048A304F4EA7}|ServicoApp.Application\\ServicoApp.Application.csproj|solutionrelative:servicoapp.application\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B746813A-DC5D-97F5-1F40-A6E2BEB06A31}|ServicoApp.API\\ServicoApp.API.csproj|d:\\projetos\\servicos.v1\\servicoapp\\servicoapp.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B746813A-DC5D-97F5-1F40-A6E2BEB06A31}|ServicoApp.API\\ServicoApp.API.csproj|solutionrelative:servicoapp.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Infrastructure\\DependencyInjection.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\DependencyInjection.cs",
+              "RelativeToolTip": "ServicoApp.Infrastructure\\DependencyInjection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:55:24.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Class1.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Infrastructure\\Class1.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Class1.cs",
+              "RelativeToolTip": "ServicoApp.Infrastructure\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:55:22.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PersistentLogEventObserver.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\PersistentLogEventObserver.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Infrastructure\\Events\\PersistentLogEventObserver.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\PersistentLogEventObserver.cs",
+              "RelativeToolTip": "ServicoApp.Infrastructure\\Events\\PersistentLogEventObserver.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:55:04.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MockServiceBus.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\MockServiceBus.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Infrastructure\\Events\\MockServiceBus.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\MockServiceBus.cs",
+              "RelativeToolTip": "ServicoApp.Infrastructure\\Events\\MockServiceBus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:57.745Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EventDrivenRegistration.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\EventDrivenRegistration.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Infrastructure\\Events\\EventDrivenRegistration.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Infrastructure\\Events\\EventDrivenRegistration.cs",
+              "RelativeToolTip": "ServicoApp.Infrastructure\\Events\\EventDrivenRegistration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:48.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Class1.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Class1.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Class1.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:40.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Repositories\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Repositories\\IUnitOfWork.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Repositories\\IUnitOfWork.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Repositories\\IUnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:36.16Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IServicoRepository.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Repositories\\IServicoRepository.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Repositories\\IServicoRepository.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Repositories\\IServicoRepository.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Repositories\\IServicoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:34.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IOrcamentoRepository.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Repositories\\IOrcamentoRepository.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Repositories\\IOrcamentoRepository.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Repositories\\IOrcamentoRepository.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Repositories\\IOrcamentoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:33.335Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ILogRepository.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Repositories\\ILogRepository.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Repositories\\ILogRepository.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Repositories\\ILogRepository.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Repositories\\ILogRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:29.797Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ServicoFactory.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Factories\\ServicoFactory.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Factories\\ServicoFactory.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Factories\\ServicoFactory.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Factories\\ServicoFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:22.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Servico.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Entities\\Servico.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Entities\\Servico.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Entities\\Servico.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Entities\\Servico.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:12.471Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Orcamento.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Entities\\Orcamento.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Entities\\Orcamento.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Entities\\Orcamento.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Entities\\Orcamento.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:54:04.766Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "LogEntry.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Entities\\LogEntry.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Domain\\Entities\\LogEntry.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Domain\\Entities\\LogEntry.cs",
+              "RelativeToolTip": "ServicoApp.Domain\\Entities\\LogEntry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:53:55.733Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Application\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Application\\DependencyInjection.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Application\\DependencyInjection.cs",
+              "RelativeToolTip": "ServicoApp.Application\\DependencyInjection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:53:39.6Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Application\\Class1.cs",
+              "RelativeDocumentMoniker": "ServicoApp.Application\\Class1.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.Application\\Class1.cs",
+              "RelativeToolTip": "ServicoApp.Application\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:53:35.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.API\\Program.cs",
+              "RelativeDocumentMoniker": "ServicoApp.API\\Program.cs",
+              "ToolTip": "D:\\PROJETOS\\Servicos.V1\\ServicoApp\\ServicoApp.API\\Program.cs",
+              "RelativeToolTip": "ServicoApp.API\\Program.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAFYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T14:02:58.224Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

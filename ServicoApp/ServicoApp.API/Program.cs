@@ -9,6 +9,8 @@ using ServicoApp.Application.Gateway;
 using ServicoApp.Application.Services;
 using ServicoApp.Infrastructure;
 using ServicoApp.Infrastructure.Persistence;
+using Microsoft.Extensions.Logging;
+
 
 Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
 
@@ -78,6 +80,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Padrão Facade: o gateway expõe um único ponto de entrada para múltiplos fluxos da aplicação.
+// O tipo genérico ILogger<Program> é apenas uma forma de categorizar os logs com o nome da classe "Program".
+// O GUID operationId é gerado para cada requisição e ajuda a rastrear logs relacionados a uma operação específica.
 app.MapGet("/gateway/servicos", async (IApiGatewayService gateway, ILogger<Program> logger) =>
 {
     try
@@ -88,7 +92,8 @@ app.MapGet("/gateway/servicos", async (IApiGatewayService gateway, ILogger<Progr
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao listar servicos pelo gateway.");
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao listar servicos pelo gateway.operationId={operationId}", operationId);
         return Results.Problem("Ocorreu um erro ao listar os servicos.");
     }
 })
@@ -104,7 +109,8 @@ app.MapGet("/gateway/servicos/{id:guid}", async (Guid id, IApiGatewayService gat
 
         if (servico is null)
         {
-            logger.LogWarning("Servico {ServicoId} nao encontrado.", id);
+            var operationId = Guid.NewGuid();
+            logger.LogWarning("Servico {ServicoId} nao encontrado. operationId={operationId}", id, operationId);
             return Results.NotFound(new { message = "Servico nao encontrado." });
         }
 
@@ -112,7 +118,8 @@ app.MapGet("/gateway/servicos/{id:guid}", async (Guid id, IApiGatewayService gat
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao buscar servico {ServicoId} pelo gateway.", id);
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao buscar servico {ServicoId} pelo gateway. operationId={operationId}", id, operationId);
         return Results.Problem("Ocorreu um erro ao buscar o servico.");
     }
 })
@@ -125,7 +132,8 @@ app.MapPost("/gateway/servicos", async (CreateServicoRequest? request, IApiGatew
     var validationMessage = ValidateCreateServicoRequest(request);
     if (validationMessage is not null)
     {
-        logger.LogWarning("Requisicao invalida para criar servico: {ValidationMessage}", validationMessage);
+        var operationId = Guid.NewGuid();
+        logger.LogWarning("Requisicao invalida para criar servico: {ValidationMessage}. OperationID={operationId}", validationMessage, operationId);
         return Results.BadRequest(new { message = validationMessage });
     }
 
@@ -138,12 +146,14 @@ app.MapPost("/gateway/servicos", async (CreateServicoRequest? request, IApiGatew
     }
     catch (ArgumentException ex)
     {
-        logger.LogWarning(ex, "Dados invalidos ao criar servico.");
+        var operationId = Guid.NewGuid();
+        logger.LogWarning(ex, "Dados invalidos ao criar servico. OperationID={operationId}", operationId);
         return Results.BadRequest(new { message = ex.Message });
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao criar servico pelo gateway.");
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao criar servico pelo gateway. OperationID={operationId}", operationId);
         return Results.Problem("Ocorreu um erro ao criar o servico.");
     }
 })
@@ -155,7 +165,8 @@ app.MapPatch("/gateway/servicos/{id:guid}/status", async (Guid id, UpdateStatusR
 {
     if (request is null)
     {
-        logger.LogWarning("Requisicao invalida para alterar status do servico {ServicoId}: corpo obrigatorio.", id);
+        var operationId = Guid.NewGuid();
+        logger.LogWarning("Requisicao invalida para alterar status do servico {ServicoId}: corpo obrigatorio. OperationID={operationId}", id, operationId);
         return Results.BadRequest(new { message = "Informe os dados para alterar o status do servico." });
     }
 
@@ -174,7 +185,8 @@ app.MapPatch("/gateway/servicos/{id:guid}/status", async (Guid id, UpdateStatusR
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao alterar status do servico {ServicoId}.", id);
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao alterar status do servico {ServicoId}. OperationID={operationId}", id, operationId);
         return Results.Problem("Ocorreu um erro ao alterar o status do servico.");
     }
 })
@@ -192,7 +204,8 @@ app.MapGet("/gateway/orcamentos", async (IApiGatewayService gateway, ILogger<Pro
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao listar orcamentos pelo gateway.");
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao listar orcamentos pelo gateway. OperationID={operationId}", operationId);
         return Results.Problem("Ocorreu um erro ao listar os orcamentos.");
     }
 })
@@ -205,7 +218,8 @@ app.MapPost("/gateway/orcamentos", async (CreateOrcamentoRequest? request, IApiG
     var validationMessage = ValidateCreateOrcamentoRequest(request);
     if (validationMessage is not null)
     {
-        logger.LogWarning("Requisicao invalida para criar orcamento: {ValidationMessage}", validationMessage);
+        var operationId = Guid.NewGuid();
+        logger.LogWarning("Requisicao invalida para criar orcamento: {ValidationMessage}. OperationID={operationId}", validationMessage, operationId);
         return Results.BadRequest(new { message = validationMessage });
     }
 
@@ -218,17 +232,20 @@ app.MapPost("/gateway/orcamentos", async (CreateOrcamentoRequest? request, IApiG
     }
     catch (InvalidOperationException ex)
     {
-        logger.LogWarning(ex, "Regra de negocio impediu a criacao do orcamento.");
+        var operationId = Guid.NewGuid();
+        logger.LogWarning(ex, "Regra de negocio impediu a criacao do orcamento. OperationID={operationId}", operationId);
         return Results.BadRequest(new { message = ex.Message });
     }
     catch (ArgumentException ex)
     {
-        logger.LogWarning(ex, "Dados invalidos ao criar orcamento.");
+        var operationId = Guid.NewGuid();
+        logger.LogWarning(ex, "Dados invalidos ao criar orcamento. OperationID={operationId}", operationId);
         return Results.BadRequest(new { message = ex.Message });
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao criar orcamento pelo gateway.");
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao criar orcamento pelo gateway. OperationID={operationId}", operationId);
         return Results.Problem("Ocorreu um erro ao criar o orcamento.");
     }
 })
@@ -246,7 +263,8 @@ app.MapGet("/gateway/agenda", async (IApiGatewayService gateway, ILogger<Program
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao listar agenda pelo gateway.");
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao listar agenda pelo gateway. OperationID={operationId}", operationId);
         return Results.Problem("Ocorreu um erro ao listar a agenda.");
     }
 })
@@ -264,7 +282,8 @@ app.MapGet("/gateway/historico", async (IApiGatewayService gateway, ILogger<Prog
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao listar historico pelo gateway.");
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao listar historico pelo gateway. OperationID={operationId}", operationId);
         return Results.Problem("Ocorreu um erro ao listar o historico.");
     }
 })
@@ -277,7 +296,8 @@ app.MapPost("/gateway/auth/login", async (LoginRequest? request, IApiGatewayServ
     var validationMessage = ValidateLoginRequest(request);
     if (validationMessage is not null)
     {
-        logger.LogWarning("Requisicao invalida para login: {ValidationMessage}", validationMessage);
+        var operationId = Guid.NewGuid();
+        logger.LogWarning("Requisicao invalida para login: {ValidationMessage}. OperationID={operationId}", validationMessage, operationId);
         return Results.BadRequest(new { message = validationMessage });
     }
 
@@ -303,12 +323,14 @@ app.MapPost("/gateway/auth/login", async (LoginRequest? request, IApiGatewayServ
     }
     catch (ArgumentException ex)
     {
-        logger.LogWarning(ex, "Dados invalidos ao realizar login.");
+        var operationId = Guid.NewGuid();
+        logger.LogWarning(ex, "Dados invalidos ao realizar login. OperationID={operationId}", operationId);
         return Results.BadRequest(new { message = ex.Message });
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Erro ao realizar login via gateway.");
+        var operationId = Guid.NewGuid();
+        logger.LogError(ex, "Erro ao realizar login via gateway. OperationID={operationId}", operationId);
         return Results.Problem("Ocorreu um erro ao realizar login.");
     }
 })
